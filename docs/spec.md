@@ -211,8 +211,9 @@ lists the apps registered for the scheme and keeps those with an announcement.
 - **The default handler.** A link opened without naming an app (pasted into a browser, `open`, `xdg-open`) goes to
   whichever participant the system picks. Participants SHOULD NOT make themselves the scheme's default handler
   (`LSSetDefaultHandlerForURLScheme`, `xdg-mime default`), so that choice stays the user's.
-- **macOS:** apps are found where Launch Services sees them; a sandboxed sender may not see an app outside
-  `/Applications`, so participants SHOULD be installed there.
+- **macOS:** apps are found where Launch Services sees them, but a sandboxed sender reads another app's announcement
+  only from a copy in `/Applications` (seen on macOS 27: copies in `~/Applications` or a build folder read as
+  nothing). Participants SHOULD be installed in `/Applications`.
 - **Flatpak.** A Flatpak app is a receiver like any other: its exported desktop entry carries the scheme and the
   announcement. From inside the sandbox it cannot list the other apps; it MAY offer one **Show in Another App…**
   through the OpenURI portal, which lets the user choose.
