@@ -61,9 +61,11 @@ immich-crosslink:///search?query=%7B%22city%22%3A%22Aarhus%22%2C%22country%22%3A
 
 - The host MUST be empty. The Immich path follows it, as in the table below.
 - `server` is REQUIRED. Its value is the server address. Senders MUST encode it as JavaScript's `encodeURIComponent`
-  does; receivers MUST also accept it unencoded.
-- `user` is OPTIONAL: the Immich id of the user whose view the sender shows. A receiver with several accounts on one
-  server uses it to pick the account; senders SHOULD include it when they know it.
+  does; receivers MUST also accept it unencoded. It is an absolute `http` or `https` URL with a host, and with no user
+  information (`someone@`), query or fragment; a port, if given, is a number.
+- `user` is OPTIONAL: the Immich id of the user whose view the sender shows, a UUID. Senders write it in lower case and
+  SHOULD include it when they know it; receivers compare it in either case. A receiver with several accounts on one
+  server uses it to pick the account.
 - Every parameter name is defined here, and added by a change to this document. An app that needs a parameter of its
   own names it with its reverse domain name (`dev.example.photos.view`), and other apps ignore it. There is no
   `x-` prefix: names made for experiments tend to stay ([RFC 6648](https://www.rfc-editor.org/rfc/rfc6648)).
@@ -98,9 +100,13 @@ app also takes as deep links through `my.immich.app`. Draft 0.2 defines these:
   shown), encoded as `encodeURIComponent` does: every byte except `A-Z a-z 0-9 - _ . ! ~ * ' ( )` becomes `%XX` of its
   UTF-8. City and country names are Immich's own strings (its search suggestions), never a file or folder name made
   from them. Immich's Places page links a city with `{"city":…}` alone; senders SHOULD add the country when they know
-  it, so two cities of one name stay apart, and receivers MUST accept either.
+  it, so two cities of one name stay apart, and receivers MUST accept either. A receiver that needs a country for a
+  city named alone MAY show any place of that name, and SHOULD prefer one in the account's library.
+- A search without `query`, or by nothing (`{}`), or by anything but `city` and `country`, has no path here; a search
+  that is not a JSON object, or whose `city` or `country` is not a string, is malformed.
 - A path with context (an asset in an album, person, search, Favorites or Archive) says where the user saw the asset.
-  Its kind is `asset`: a receiver that has no such view MUST show the asset alone.
+  Its kind is `asset`: a receiver that has no such view MUST show the asset alone. A receiver whose view no longer
+  holds the asset (it left the album since) SHOULD show it the same way, without the context.
 - A sender MUST NOT offer a crosslink for an item that has no path here.
 
 Because the paths are Immich's own, a crosslink also gives the item's web address: the server address followed by the
@@ -173,15 +179,18 @@ A receiver shows what a link names.
   - *cannot show:* a valid link whose path this draft does not define (a search by anything but `city` and
     `country` included), or of a kind the receiver did not announce: it tells the user so in a sentence;
   - *invalid:* anything else (another scheme, a host, a missing or empty `server`, a `server` that is not an
-    absolute `http` or `https` URL, an id that is not a UUID, a malformed search): it does nothing, or tells the user
-    the link is not valid.
+    absolute `http` or `https` URL with a host and without user information, query or fragment, a port that is not a
+    number, an id or a `user` that is not a UUID, a malformed search): it does nothing, or tells the user the link is
+    not valid.
 
   There is no fourth way: a receiver MUST NOT guess at a link it cannot read.
 - **The account.** The receiver compares `server` with the servers it is signed in to: scheme, host in lower case,
-  and port, with a scheme's default port the same as none, and any path without its trailing slash. With several
+  and port as a number (`0443` is `443`), with a scheme's default port the same as none, and any path without its
+  trailing slash. With several
   accounts on that server it picks the one matching `user`, if given. Without a match it tells the user that it is not
   signed in to that server (naming the host), and does nothing else.
 - **Nothing to show.** For an item the account cannot see, it tells the user so in a sentence, and does nothing else.
+  An asset the account can see is always shown, if need be without the context its link gave.
 - **Turned off.** If the user turned Immich crosslink off ([Settings](#settings)), a received link only tells the user
   so, with a way to turn it on.
 
@@ -199,6 +208,9 @@ lists the apps registered for the scheme and keeps those with an announcement.
   it when the system says the installed apps may have changed: GIO's `GAppInfoMonitor` `changed` signal, KDE's
   `KSycoca::databaseChanged`. macOS gives no such signal; listing is cheap enough to do for each menu. A list is never
   kept across launches of the sender.
+- **The default handler.** A link opened without naming an app (pasted into a browser, `open`, `xdg-open`) goes to
+  whichever participant the system picks. Participants SHOULD NOT make themselves the scheme's default handler
+  (`LSSetDefaultHandlerForURLScheme`, `xdg-mime default`), so that choice stays the user's.
 - **macOS:** apps are found where Launch Services sees them; a sandboxed sender may not see an app outside
   `/Applications`, so participants SHOULD be installed there.
 - **Flatpak.** A Flatpak app is a receiver like any other: its exported desktop entry carries the scheme and the

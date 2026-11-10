@@ -2,6 +2,15 @@
 title: Changelog
 ---
 
+# Draft 0.2, clarified (2026-11-10)
+
+From the first two implementations (Immich Mount and Immich Gallery), without changing any link that was already
+shown: `user` is a UUID, compared in either case; the server address has a host and no user information, query or
+fragment, and its port compares as a number; searches without a query, or by nothing, cannot be shown, and a
+non-string city or country is malformed; a city named alone may be shown as any place of that name, preferring the
+account's library; an asset whose view no longer holds it is still shown, without the context; participants should
+not make themselves the scheme's default handler. Twelve test links for these.
+
 # Draft 0.2 (2026-11-10)
 
 - **Announcing:** an app takes part by announcing itself in its installed metadata (Info.plist `ImmichCrosslink`,
