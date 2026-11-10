@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<!-- immich-crosslink: the lens and link, without the tile, for use beside text (design/logo-ideas, A2). -->
+  <defs>
+    <clipPath id="t2"><circle cx="128.00" cy="85.26" r="30.4"/></clipPath>
+    <clipPath id="b2"><circle cx="128.00" cy="170.74" r="30.4"/></clipPath>
+    <mask id="ml2" maskUnits="userSpaceOnUse" x="0" y="0" width="256" height="256"><rect width="256" height="256" fill="#fff"/>
+      <g clip-path="url(#t2)"><circle cx="161.0" cy="128" r="54" fill="none" stroke="#000" stroke-width="29"/></g></mask>
+    <mask id="mr2" maskUnits="userSpaceOnUse" x="0" y="0" width="256" height="256"><rect width="256" height="256" fill="#fff"/>
+      <g clip-path="url(#b2)"><circle cx="95.0" cy="128" r="54" fill="none" stroke="#000" stroke-width="29"/></g></mask>
+  </defs>
+  
+  <g mask="url(#ml2)"><path d="M 97.36 74.05 A 54 54 0 0 1 145.58 109.09" stroke="#FA2921" stroke-width="19" fill="none"/><path d="M 147.04 113.57 A 54 54 0 0 1 128.62 170.26" stroke="#ED79B5" stroke-width="19" fill="none"/><path d="M 124.80 173.03 A 54 54 0 0 1 65.20 173.03" stroke="#FFB400" stroke-width="19" fill="none"/><path d="M 61.38 170.26 A 54 54 0 0 1 42.96 113.57" stroke="#1E83F7" stroke-width="19" fill="none"/><path d="M 44.42 109.09 A 54 54 0 0 1 92.64 74.05" stroke="#18C249" stroke-width="19" fill="none"/></g>
+  <g mask="url(#mr2)"><circle cx="161.0" cy="128" r="54" stroke="#62a0ea" stroke-width="19" fill="none"/></g>
+</svg>

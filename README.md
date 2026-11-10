@@ -1,3 +1,5 @@
+<img src="site/assets/logo.svg" alt="" width="96" align="right">
+
 # immich-crosslink
 
 **Links between [Immich](https://immich.app) apps on the same computer.** A small, open protocol: every participating

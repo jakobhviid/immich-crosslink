@@ -27,10 +27,12 @@ body {
 }
 a { color: var(--link); text-underline-offset: 0.15em; }
 header.site {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.5rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem;
   padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--line);
 }
-header.site .name { font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.05rem; }
+header.site .name { font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.05rem;
+  display: inline-flex; align-items: center; gap: 0.5rem; }
+header.site .name img { display: block; align-self: center; }
 header.site nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; }
 header.site nav a { color: var(--muted); text-decoration: none; }
 header.site nav a:hover { color: var(--link); }

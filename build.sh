@@ -9,7 +9,7 @@ else
     run() { "$engine" run --rm -v "$PWD:/data:z" -w /data docker.io/pandoc/core:3.8 "$@"; }
 fi
 rm -rf _site && mkdir -p _site
-cp site/style.css _site/
+cp site/style.css site/assets/* _site/
 for page in docs/*.md; do
     name=$(basename "$page" .md)
     case "$name" in

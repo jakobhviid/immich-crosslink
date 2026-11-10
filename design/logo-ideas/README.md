@@ -1,6 +1,6 @@
 # Logo ideas
 
-Four ideas for the immich-crosslink logo, not chosen yet. Each takes Immich's colours (red `#FA2921`, pink `#ED79B5`,
+Four ideas for the immich-crosslink logo. **A6, the lens and link on a tile, is the logo for now** (`site/assets/logo.svg`, with `mark.svg`, A2 without the tile, for use beside text); the others stay here for a later look. Each takes Immich's colours (red `#FA2921`, pink `#ED79B5`,
 yellow `#FFB400`, blue `#1E83F7`, green `#18C249`) but none of its shapes, as Immich Mount's icon does, so nothing
 looks like an official Immich mark.
 
