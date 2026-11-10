@@ -228,7 +228,20 @@ Every participant's settings show the protocol the same way, so a user meets one
 
 - a switch labelled **Immich Crosslink**, on by default, with a **Read more** link beside it to
   <https://jakob.hviid.phd/immich-crosslink/>; the address itself is not shown;
-- under it, the participants found, each with a switch, on by default.
+- under it, the participants seen, each with a switch, on by default.
+
+**Participants that come and go.** An app keeps the participants it has seen, so one that is away can still be
+switched off before it comes back:
+
+- A participant is *seen* whenever the app finds it installed ([Finding participants](#finding-participants)); the app
+  keeps, per bundle id or desktop entry id, its name and when it was last seen. Where it keeps them is the app's own
+  choice: they are the app's state, not a setting.
+- One that is not installed now is listed as **Not installed**, by its remembered name and a generic app icon, keeps
+  its switch, and has a **Forget** button.
+- One not seen for 30 days is forgotten on its own.
+- Forgetting, by hand or after 30 days, also drops its switch, so a participant that comes back afterwards is new
+  again, and on.
+- Menus offer only participants installed now.
 
 Turning the main switch off stops the app from offering Show in *app* and from acting on received links. Turning one
 participant off removes it from the app's menus. "Immich Crosslink" is a name and stays in English; "Read more" and
@@ -238,7 +251,8 @@ app", keeping the name for the protocol.
 # Copying links
 
 A participant MAY offer **Copy Immich Link**, which copies the item's web address: it opens in any browser and in
-Immich's own apps. A participant MAY also offer a link of its own scheme, for opening the item in itself. Copying a
+Immich's own apps, and **Open in Immich**, which opens it in the default browser. One that offers them SHOULD let the
+user turn both off with one switch, **Open in Immich and Copy Immich Link**, apart from the Immich Crosslink switch. A participant MAY also offer a link of its own scheme, for opening the item in itself. Copying a
 crosslink is not recommended: pasted into a browser or a note, it opens with whichever participant the system picks.
 
 # Security and privacy
