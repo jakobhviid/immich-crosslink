@@ -13,7 +13,7 @@ not make themselves the scheme's default handler; on macOS, a sandboxed app read
 `/Applications`. The protocol is named Immich Crosslink in prose, and its settings switch reads **Immich Crosslink**
 with a **Read more** link, the address not shown. Settings remember the participants seen: one away is listed as
 Not installed with a Forget button, and forgotten, switch and all, after 30 days unseen. Open in Immich and Copy
-Immich Link share one switch of their own. Twelve test links for these.
+Immich Link share one switch of their own. Senders leave out apps that cannot start, and say so when sending fails. Twelve test links for these.
 
 # Draft 0.2 (2026-11-10)
 

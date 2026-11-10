@@ -165,6 +165,8 @@ A sender offers **Show in *app*** for each other participant that announces the 
 - It MUST send the link to that participant alone, never by opening the link with the scheme's default handler, which
   could be any participant.
 - It sends a link only when the user asks, one item at a time.
+- It leaves out an app that cannot start (its program missing). If sending fails, because the app was removed since
+  the list was read or the system cannot open it, it tells the user so, and reads the list again.
 
 # Receiving
 
