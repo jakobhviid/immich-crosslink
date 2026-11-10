@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$pagetitle$</title>
+<meta name="description" content="immich-crosslink: an open protocol for links between Immich apps on the same computer.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site">
+  <a class="name" href="index.html">immich-crosslink</a>
+  <nav>
+    <a href="spec.html">Protocol</a>
+    <a href="implementing.html">Implementing</a>
+    <a href="participants.html">Participants</a>
+    <a href="changelog.html">Changelog</a>
+    <a href="https://github.com/jakobhviid/immich-crosslink">GitHub</a>
+  </nav>
+</header>
+<div class="page$if(toc)$ with-toc$endif$">
+$if(toc)$
+<nav class="toc" aria-label="Contents">
+<p class="toc-title">Contents</p>
+$table-of-contents$
+</nav>
+$endif$
+<main>
+<header class="title">
+<h1>$title$</h1>
+$if(subtitle)$<p class="subtitle">$subtitle$</p>$endif$
+</header>
+$body$
+</main>
+</div>
+<footer class="site">
+  <p>immich-crosslink is an independent, unofficial project. It is not affiliated with, endorsed by, or sponsored by
+  the Immich project or FUTO. “Immich” is used only to describe the server the apps work with, and remains the mark of
+  its owner.</p>
+  <p>The protocol and its documentation: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Code and
+  examples: <a href="https://github.com/jakobhviid/immich-crosslink/blob/main/LICENSE-CODE">MIT</a>.
+  <a href="https://github.com/jakobhviid/immich-crosslink/edit/main/docs/$source$">Suggest a change to this page</a>.</p>
+</footer>
+</body>
+</html>
