@@ -1,6 +1,7 @@
 ---
 title: immich-crosslink
 subtitle: Links between Immich apps, on the same computer
+hero: true
 ---
 
 **immich-crosslink** is a small, open protocol that lets apps working with an [Immich](https://immich.app) server
