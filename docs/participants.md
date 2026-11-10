@@ -1,6 +1,6 @@
 ---
 title: Participants
-subtitle: Apps that take part in immich-crosslink
+subtitle: Apps that take part in Immich Crosslink
 ---
 
 Apps that implement, or plan to implement, the protocol. To add yours, open a pull request changing this page

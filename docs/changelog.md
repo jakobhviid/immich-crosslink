@@ -10,7 +10,8 @@ fragment, and its port compares as a number; searches without a query, or by not
 non-string city or country is malformed; a city named alone may be shown as any place of that name, preferring the
 account's library; an asset whose view no longer holds it is still shown, without the context; participants should
 not make themselves the scheme's default handler; on macOS, a sandboxed app reads announcements only from
-`/Applications`. Twelve test links for these.
+`/Applications`. The protocol is named Immich Crosslink in prose, and its settings switch reads **Immich Crosslink**
+with a **Read more** link, the address not shown. Twelve test links for these.
 
 # Draft 0.2 (2026-11-10)
 
@@ -33,4 +34,4 @@ not make themselves the scheme's default handler; on macOS, a sandboxed app read
 The first draft: the scheme `immich-crosslink`; links made of an Immich path, `server` and an optional `user`; the
 Immich paths for assets (alone and in an album, person, search, Favorites or Archive), albums, people, cities,
 countries and the main pages; the rules for sending and receiving; finding participants on macOS and Linux; the
-Immich crosslink switch in settings; copying links; security, versioning and the relation to Immich.
+Immich Crosslink switch in settings; copying links; security, versioning and the relation to Immich.

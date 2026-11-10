@@ -1,6 +1,6 @@
 # Contributing
 
-immich-crosslink grows by proposals from the apps that use it. Changes are made as pull requests to this repository.
+Immich Crosslink grows by proposals from the apps that use it. Changes are made as pull requests to this repository.
 
 ## Adding your app
 

@@ -1,10 +1,10 @@
 ---
-title: immich-crosslink
+title: Immich Crosslink
 subtitle: Links between Immich apps, on the same computer
 hero: true
 ---
 
-**immich-crosslink** is a small, open protocol that lets apps working with an [Immich](https://immich.app) server
+**Immich Crosslink** is a small, open protocol that lets apps working with an [Immich](https://immich.app) server
 point to each other. Right-click a photo in one app, choose **Show in *another app***, and that app opens the same
 photo, album, person or place. No app needs to know the others in advance: each announces itself when it is installed,
 and the operating system tells the others who is there.
@@ -27,8 +27,8 @@ It is a draft (0.2), open for changes. Anyone may implement it, and proposals ar
 4. The receiving app checks it is signed in to that server, and shows the item. A link only ever shows something: it
    never changes, shares or deletes anything.
 
-Every app's settings carry the same switch, **Immich crosslink**, on by default, with a link to this page, and a
-switch for each app found.
+Every app's settings carry the same switch, **Immich Crosslink**, on by default, with a **Read more** link to this
+page, and a switch for each app found.
 
 # Read more
 

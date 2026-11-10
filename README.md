@@ -1,6 +1,6 @@
 <img src="site/assets/logo.svg" alt="" width="96" align="right">
 
-# immich-crosslink
+# Immich Crosslink
 
 **Links between [Immich](https://immich.app) apps on the same computer.** A small, open protocol: every participating
 app announces itself in the metadata it installs and registers the URL scheme `immich-crosslink`, finds the others
@@ -32,7 +32,7 @@ an issue or a pull request: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Not affiliated with Immich
 
-immich-crosslink is an independent, unofficial project. It is not affiliated with, endorsed by, or sponsored by the
+Immich Crosslink is an independent, unofficial project. It is not affiliated with, endorsed by, or sponsored by the
 Immich project or FUTO. "Immich" is used only to describe the server the apps work with, and remains the mark of its
 owner.
 

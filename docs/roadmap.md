@@ -2,7 +2,7 @@
 title: Roadmap
 ---
 
-Where immich-crosslink is going, in order. Each step is reached when it is met, not by a date.
+Where Immich Crosslink is going, in order. Each step is reached when it is met, not by a date.
 
 # Drafts
 

@@ -1,5 +1,5 @@
 ---
-title: Implementing immich-crosslink
+title: Implementing Immich Crosslink
 subtitle: For draft 0.2
 ---
 

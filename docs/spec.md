@@ -1,5 +1,5 @@
 ---
-title: The immich-crosslink protocol
+title: The Immich Crosslink protocol
 subtitle: Draft 0.2
 ---
 
@@ -15,7 +15,7 @@ only when, they appear in capitals.
 
 Many apps work with an [Immich](https://immich.app) server: galleries, file managers, editors, backup tools. When
 several are installed on one computer, a user looking at a photo in one of them should be able to say "show this in
-that app". immich-crosslink is the smallest agreement that makes this work between apps that know nothing about each
+that app". Immich Crosslink is the smallest agreement that makes this work between apps that know nothing about each
 other:
 
 - an **announcement** each app installs with itself, saying that it takes part and what it can show, which other apps
@@ -191,7 +191,7 @@ A receiver shows what a link names.
   signed in to that server (naming the host), and does nothing else.
 - **Nothing to show.** For an item the account cannot see, it tells the user so in a sentence, and does nothing else.
   An asset the account can see is always shown, if need be without the context its link gave.
-- **Turned off.** If the user turned Immich crosslink off ([Settings](#settings)), a received link only tells the user
+- **Turned off.** If the user turned Immich Crosslink off ([Settings](#settings)), a received link only tells the user
   so, with a way to turn it on.
 
 # Finding participants
@@ -226,13 +226,14 @@ lists the apps registered for the scheme and keeps those with an announcement.
 
 Every participant's settings show the protocol the same way, so a user meets one name in every app:
 
-- a switch labelled **Immich crosslink**, on by default, with a link to
-  <https://jakob.hviid.phd/immich-crosslink/> beside it;
+- a switch labelled **Immich Crosslink**, on by default, with a **Read more** link beside it to
+  <https://jakob.hviid.phd/immich-crosslink/>; the address itself is not shown;
 - under it, the participants found, each with a switch, on by default.
 
 Turning the main switch off stops the app from offering Show in *app* and from acting on received links. Turning one
-participant off removes it from the app's menus. "Immich crosslink" is a name and stays in English; the words around it
-are translated.
+participant off removes it from the app's menus. "Immich Crosslink" is a name and stays in English; "Read more" and
+the words around them are translated. Messages about a link a participant received speak of "a link from another
+app", keeping the name for the protocol.
 
 # Copying links
 
@@ -271,7 +272,7 @@ crosslink is not recommended: pasted into a browser or a note, it opens with whi
 
 # Relation to Immich
 
-immich-crosslink is an independent, unofficial project. It is not affiliated with, endorsed by, or sponsored by the
+Immich Crosslink is an independent, unofficial project. It is not affiliated with, endorsed by, or sponsored by the
 Immich project or FUTO. "Immich" is used only to describe the server the apps work with, and remains the mark of its
 owner.
 
