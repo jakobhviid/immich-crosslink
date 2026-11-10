@@ -1,8 +1,9 @@
 # immich-crosslink
 
 **Links between [Immich](https://immich.app) apps on the same computer.** A small, open protocol: every participating
-app registers the URL scheme `immich-crosslink`, finds the others through the operating system, and offers
-**Show in *app*** for a photo, album, person or place, named the way Immich's own web app names it.
+app announces itself in the metadata it installs and registers the URL scheme `immich-crosslink`, finds the others
+through the operating system, and offers **Show in *app*** for a photo, album, person or place, named the way Immich's
+own web app names it.
 
 ```
 immich-crosslink:///albums/<album>/photos/<asset>?server=https%3A%2F%2Fphotos.example.com
@@ -10,14 +11,16 @@ immich-crosslink:///albums/<album>/photos/<asset>?server=https%3A%2F%2Fphotos.ex
 
 Read it at **<https://jakob.hviid.phd/immich-crosslink/>**:
 
-- [The protocol](docs/spec.md) (draft 0.1)
+- [The protocol](docs/spec.md) (draft 0.2)
 - [Implementing it](docs/implementing.md) on macOS, GNOME and KDE, with code
+- [Test links](docs/test-links.md) ([`tests/links.json`](tests/links.json))
 - [Participants](docs/participants.md)
+- [Roadmap](docs/roadmap.md)
 - [Changelog](docs/changelog.md)
 
 ## Status
 
-Draft 0.1, being designed. Anything may change before 1.0; from 1.0, changes within a major version only add. See
+Draft 0.2, being designed. Anything may change before 1.0; from 1.0, changes within a major version only add. See
 [Versioning](docs/spec.md#versioning).
 
 ## Taking part

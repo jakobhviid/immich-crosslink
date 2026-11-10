@@ -11,8 +11,9 @@ draft it follows, and its status (planned, or released in a version).
 ## Changing the protocol
 
 1. **Open an issue first** for anything beyond a wording fix: what you need, for which app, and an example link.
-2. **Then a pull request** changing [docs/spec.md](docs/spec.md), the [implementation guide](docs/implementing.md)
-   where it shows the change, and the [changelog](docs/changelog.md).
+2. **Then a pull request** changing [docs/spec.md](docs/spec.md), the [test links](tests/links.json) that show the
+   change, the [implementation guide](docs/implementing.md) where it shows it, and the
+   [changelog](docs/changelog.md).
 
 What a change should keep:
 

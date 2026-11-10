@@ -5,16 +5,18 @@ subtitle: Links between Immich apps, on the same computer
 
 **immich-crosslink** is a small, open protocol that lets apps working with an [Immich](https://immich.app) server
 point to each other. Right-click a photo in one app, choose **Show in *another app***, and that app opens the same
-photo, album, person or place. No app needs to know the others in advance: each registers one URL scheme, and the
-operating system tells them who else is there.
+photo, album, person or place. No app needs to know the others in advance: each announces itself when it is installed,
+and the operating system tells the others who is there.
 
-It is a draft (0.1), open for changes. Anyone may implement it, and proposals are welcome.
+It is a draft (0.2), open for changes. Anyone may implement it, and proposals are welcome.
 
 # How it works
 
-1. Every participating app registers the URL scheme `immich-crosslink` with the operating system (macOS, GNOME, KDE).
-2. An app asks the system which other apps registered it, and offers **Show in *app*** for each, by the name and icon
-   the system knows.
+1. Every participating app **announces** itself in the metadata it installs (its Info.plist on macOS, its desktop
+   entry on Linux): the draft it follows, and what it can show. It also registers the URL scheme `immich-crosslink`,
+   which delivers links to it.
+2. An app asks the system which other apps registered the scheme, reads their announcements without starting them,
+   and offers **Show in *app*** for each that shows the item, by the name and icon the system knows.
 3. Choosing one sends that app a link naming the item the way Immich's own web app does, with the server's address:
 
    ```
@@ -29,11 +31,13 @@ switch for each app found.
 
 # Read more
 
-- [The protocol](spec.md): links, Immich paths, sending, receiving, finding participants, settings, security,
-  versioning.
-- [Implementing it](implementing.md): registering the scheme and finding the others on macOS, GNOME and KDE, with
-  code.
+- [The protocol](spec.md): announcing, links, Immich paths, sending, receiving, finding participants, settings,
+  security, versioning, conformance.
+- [Implementing it](implementing.md): announcing the app, registering the scheme, and finding the others on macOS,
+  GNOME and KDE, with code.
+- [Test links](test-links.md): links with their expected results, for testing an implementation.
 - [Participants](participants.md): the apps that take part, and the draft each follows.
+- [Roadmap](roadmap.md): two implementations, then 1.0, then reference implementations in Rust and Swift.
 - [Changelog](changelog.md).
 - [Contributing](https://github.com/jakobhviid/immich-crosslink/blob/main/CONTRIBUTING.md): how to propose a change
   or add your app.

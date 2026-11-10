@@ -1,10 +1,10 @@
 ---
 title: Implementing immich-crosslink
-subtitle: For draft 0.1
+subtitle: For draft 0.2
 ---
 
-This page shows the platform parts: registering the scheme, finding the other participants, sending a link to one,
-and receiving one. What a link means, and what a receiver may and may not do with it, is in
+This page shows the platform parts: announcing the app, registering the scheme, finding the other participants and
+what they show, sending a link to one, and receiving one. What a link means, and what a receiver may and may not do with it, is in
 [the protocol](spec.md). The code is MIT-licensed; copy it freely.
 
 # Making links
@@ -46,9 +46,22 @@ writes for the same search. Receivers decode values whichever way they were enco
 
 # macOS
 
-**Registering.** In the app's Info.plist:
+**Announcing and registering.** In the app's Info.plist, the announcement and the scheme that delivers links:
 
 ```xml
+<key>ImmichCrosslink</key>
+<dict>
+    <key>Version</key>
+    <string>0.2</string>
+    <key>Shows</key>
+    <array>
+        <string>asset</string>
+        <string>album</string>
+        <string>person</string>
+        <string>place</string>
+        <string>page</string>
+    </array>
+</dict>
 <key>CFBundleURLTypes</key>
 <array>
     <dict>
@@ -67,13 +80,24 @@ writes for the same search. Receivers decode values whichever way they were enco
 ```swift
 import AppKit
 
-/// The other apps that take crosslinks, by the system's name for them.
-func participants() -> [(name: String, url: URL)] {
+struct Participant {
+    let name: String
+    let url: URL
+    let shows: Set<String>
+}
+
+/// The other apps that announce themselves and take crosslinks, by the system's name for them. Cheap enough to call
+/// each time a menu is built: macOS gives no signal when apps are installed or removed.
+func participants(draft: String = "0.2") -> [Participant] {
     guard let probe = URL(string: "immich-crosslink:///photos") else { return [] }
     let ownID = Bundle.main.bundleIdentifier
-    return NSWorkspace.shared.urlsForApplications(toOpen: probe)
-        .filter { Bundle(url: $0)?.bundleIdentifier != ownID }
-        .map { (FileManager.default.displayName(atPath: $0.path), $0) }
+    return NSWorkspace.shared.urlsForApplications(toOpen: probe).compactMap { url in
+        guard let bundle = Bundle(url: url), bundle.bundleIdentifier != ownID,
+              let announcement = bundle.infoDictionary?["ImmichCrosslink"] as? [String: Any],
+              announcement["Version"] as? String == draft,
+              let shows = announcement["Shows"] as? [String] else { return nil }  // no announcement: not a participant
+        return Participant(name: FileManager.default.displayName(atPath: url.path), url: url, shows: Set(shows))
+    }
 }
 
 /// Sends the link to that app alone, never to the scheme's default handler.
@@ -82,7 +106,8 @@ func send(_ link: URL, to app: URL) {
 }
 ```
 
-The menu item's icon is `NSWorkspace.shared.icon(forFile: app.path)`.
+Offer **Show in *app*** only where `shows` holds the item's kind. The menu item's icon is
+`NSWorkspace.shared.icon(forFile: app.path)`. A sandboxed app may not see apps outside `/Applications`.
 
 **Receiving,** in the app delegate:
 
@@ -96,14 +121,16 @@ func application(_ application: NSApplication, open urls: [URL]) {
 
 # Linux: GNOME, KDE and others
 
-**Registering.** In the app's desktop entry, beside its other MIME types, with `%u` in `Exec` so the link reaches the
-app:
+**Announcing and registering.** In the app's desktop entry: the announcement, and the scheme beside its other MIME
+types, with `%u` in `Exec` so the link reaches the app:
 
 ```ini
 [Desktop Entry]
 Name=Example Photos
 Exec=example-photos %u
 MimeType=x-scheme-handler/immich-crosslink;
+X-Immich-Crosslink-Version=0.2
+X-Immich-Crosslink-Shows=asset;album;person;place;page;
 ```
 
 Packages run `update-desktop-database` after installing, as they do for any MIME type. `gio mime
@@ -114,12 +141,19 @@ x-scheme-handler/immich-crosslink` lists the apps that registered it.
 ```c
 #include <gio/gio.h>
 
-/* Show in <app> for each participant but this one, by the system's name and icon. */
+#include <gio/gdesktopappinfo.h>
+
+/* Show in <app> for each participant but this one that shows the item's kind, by the system's name and icon. */
 GList *apps = g_app_info_get_all_for_type ("x-scheme-handler/immich-crosslink");
 for (GList *l = apps; l != NULL; l = l->next) {
     GAppInfo *app = l->data;
-    if (g_strcmp0 (g_app_info_get_id (app), "org.example.Photos.desktop") == 0)
+    if (!G_IS_DESKTOP_APP_INFO (app) || g_strcmp0 (g_app_info_get_id (app), "org.example.Photos.desktop") == 0)
         continue;
+    GDesktopAppInfo *entry = G_DESKTOP_APP_INFO (app);
+    g_autofree char *version = g_desktop_app_info_get_string (entry, "X-Immich-Crosslink-Version");
+    g_auto (GStrv) shows = g_desktop_app_info_get_string_list (entry, "X-Immich-Crosslink-Shows", NULL);
+    if (g_strcmp0 (version, "0.2") != 0 || shows == NULL || !g_strv_contains ((const char * const *) shows, kind))
+        continue;  /* no announcement, another draft, or not this kind */
     const char *name = g_app_info_get_display_name (app);
     GIcon *icon = g_app_info_get_icon (app);
     /* ... add a menu item; on activation: */
@@ -129,6 +163,15 @@ for (GList *l = apps; l != NULL; l = l->next) {
 }
 g_list_free_full (apps, g_object_unref);
 ```
+
+To keep the list between menus, drop it when the system says the installed apps may have changed:
+
+```c
+g_signal_connect (g_app_info_monitor_get (), "changed", G_CALLBACK (forget_participants), NULL);
+```
+
+The signal fires once until the next `g_app_info_*` call, and means "may have changed": forget the list and read it
+again when it is next needed.
 
 **With KDE Frameworks** (C++):
 
@@ -141,6 +184,11 @@ const KService::List apps = KApplicationTrader::queryByMimeType(
 for (const KService::Ptr &app : apps) {
     if (app->desktopEntryName() == QLatin1String("org.example.photos"))
         continue;
+    const QString version = app->property<QString>(QStringLiteral("X-Immich-Crosslink-Version"));
+    const QStringList shows = app->property<QString>(QStringLiteral("X-Immich-Crosslink-Shows"))
+                                  .split(QLatin1Char(';'), Qt::SkipEmptyParts);
+    if (version != QLatin1String("0.2") || !shows.contains(kind))
+        continue;  // no announcement, another draft, or not this kind
     // app->name(), app->icon() for the menu item; on activation:
     auto *job = new KIO::ApplicationLauncherJob(app);
     job->setUrls({QUrl(link)});
@@ -148,13 +196,18 @@ for (const KService::Ptr &app : apps) {
 }
 ```
 
+KDE's database of desktop entries changes behind `KSycoca::databaseChanged`, the place to forget a kept list.
+
 **Receiving:** the link arrives as the `%u` argument. Check it, match the account, and only show the item.
 
-**Flatpak.** A Flatpak app's exported desktop entry carries its `MimeType`, so it receives links. From inside the
+**Flatpak.** A Flatpak app's exported desktop entry carries its `MimeType` and its announcement, so it receives
+links. From inside the
 sandbox it cannot list the other apps; offer one **Show in Another App…** that opens the link through the OpenURI
 portal with `ask` set, so the user chooses.
 
-# Trying it
+# Testing
+
+Test against the [test links](test-links.md): the links to make for each item, and the result to reach for each link.
 
 With a participant installed, open a link by hand:
 
