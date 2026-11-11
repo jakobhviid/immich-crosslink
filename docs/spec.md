@@ -212,6 +212,17 @@ A receiver shows what a link names.
 A participant registers the scheme `immich-crosslink`, which delivers links to it, and announces itself. A sender
 lists the apps registered for the scheme and keeps those with an announcement.
 
+A participant is **found** when the sender can list it, read its announcement, and start it: its program is there.
+An app that is installed is found whether or not it was ever started, as the system's own Open With and share menus
+list it; one that has no account yet says so when a link arrives ([Receiving](#receiving)). Each platform has ways for
+an app to look present when it is not, and those read as not found:
+
+- **macOS:** Launch Services keeps registrations of copies that were deleted or moved (a build folder, an old
+  download); a copy whose executable is missing cannot start. A sandboxed sender reads an announcement only in
+  `/Applications` (below), so a copy elsewhere cannot be read.
+- **Linux:** a desktop entry may outlive its program (an app installed by hand, an AppImage); its `TryExec`, or else
+  the program of its `Exec`, must exist. An entry with `Hidden=true` is not there at all.
+
 | Platform | Registering | Listing | Reading the announcement | Sending to one |
 |---|---|---|---|---|
 | macOS | `CFBundleURLTypes` with the scheme `immich-crosslink` in Info.plist | `NSWorkspace.urlsForApplications(toOpen:)` with an `immich-crosslink:` URL | `Bundle(url:).infoDictionary["ImmichCrosslink"]` | `NSWorkspace.open(_:withApplicationAt:configuration:)` |
@@ -243,28 +254,30 @@ Every participant's settings show the protocol the same way, so a user meets one
   <https://jakob.hviid.phd/immich-crosslink/>, the address itself not shown. Where the platform's settings end a
   description with such a link (macOS), it ends the switch's description; elsewhere it stands beside the switch
   (**Learn More** on GNOME and KDE, as their buttons are written);
-- under it, the participants seen, each by its name and icon, with a **Forget** button and a switch, on by default;
-- under them, a description of what the switches and Forget do. It is OPTIONAL, but worth having: Forget brings back
-  a participant that still takes part, switched on, so a user who wants it gone should turn it off instead. For
-  example: "Apps that take part are found by themselves. Turn one off to leave it out of Show in. Forget clears what
-  *this app* remembers of an app: one that still takes part comes back, switched on, so turn it off instead to leave
-  it out."
+- under it, the participants seen, each by its name and icon with a switch, on by default; one not found also reads
+  **Not found** and has a **Forget** button;
+- under them, a description of what the switches and Forget do. It is OPTIONAL, but worth having, since a user meets
+  Forget only once an app has gone. For example: "Apps that take part are found by themselves. Turn one off to leave
+  it out of Show in. One not found stays listed for 30 days, so it stays off if it comes back; Forget removes it
+  now."
 - with none seen, a sentence saying so, which MAY link to the [participants](participants.md).
 
-**Participants that come and go.** It works like pairing devices, except that pairing is automatic: an app that
-announces itself is found, the switch is the user's lasting choice, and Forget is a reset that is always safe.
+**Participants that come and go.** It works like pairing devices, except that pairing is automatic: an app that is
+found is listed, the switch is the user's lasting choice, and an app that has gone is remembered until the user, or
+time, forgets it.
 
 - A participant is *seen* whenever the app finds it ([Finding participants](#finding-participants)); the app keeps,
   per bundle id or desktop entry id, its name and when it was last seen. Where it keeps them is the app's own choice:
   they are the app's state, not a setting.
-- One that is not found now is listed as **Not found**, by its remembered name and a generic app icon, and keeps its
-  switch. Not found rather than not installed: an app may be installed and no longer announce itself, or be where the
-  sender cannot read it.
+- One that is not found now ([Finding participants](#finding-participants)) is listed as **Not found**, by its
+  remembered name and a generic app icon, and keeps its switch, so one switched off stays off if it comes back. Not
+  found rather than not installed: an app may be installed and no longer announce itself, or be where the sender
+  cannot read it.
 - One not seen for 30 days is forgotten on its own.
-- **Forget** is offered on every participant, found or not. Forgetting, by hand or after 30 days, drops what the app
-  remembers of it and its switch. A participant still found comes back at once, new and switched on; one not found
-  is gone. So whatever went wrong with an entry, Forget clears it, and a participant the user does not want is
-  switched off.
+- **Forget** is offered on a participant not found, and only there. Forgetting, by hand or after 30 days, drops what
+  the app remembers of it and its switch, so one that comes back afterwards is new, and on. A participant that is
+  found has no Forget: its announcement is installed with it, so it would be found again at once, and Forget would
+  only turn it back on. Its switch is the control, and removing the app is the way to make it go.
 - Menus offer only participants found now.
 
 Turning the main switch off stops the app from offering Show in *app* and from acting on received links. Turning one

@@ -28,7 +28,7 @@ It is a draft (0.2), open for changes. Anyone may implement it, and proposals ar
    never changes, shares or deletes anything.
 
 Every app's settings carry the same switch, **Immich Crosslink**, on by default, with a **Learn more…** link to this
-page, and a switch and a Forget button for each app found.
+page, and a switch for each app found.
 
 # Read more
 

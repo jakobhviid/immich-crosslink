@@ -122,7 +122,12 @@ func send(_ link: URL, to app: URL) {
 ```
 
 Offer **Show in *app*** only where `shows` holds the item's kind. The menu item's name is the bundle's
-`CFBundleDisplayName` (its file name where it has none), and its icon `NSWorkspace.shared.icon(forFile: app.path)`. A sandboxed app may not see apps outside `/Applications`.
+`CFBundleDisplayName` (its file name where it has none), and its icon `NSWorkspace.shared.icon(forFile: app.path)`.
+
+**Found or not.** Launch Services also lists copies that were deleted or moved, and `Bundle(url:)` of a copy outside
+`/Applications` reads as nothing to a sandboxed app. Keep an app only when its bundle reads and its executable is
+there (`Contents/MacOS/<CFBundleExecutable>`, read from the disk each time: a `Bundle` once read is cached); every
+other one it remembers is **Not found** in the settings. A sandboxed app may not see apps outside `/Applications`.
 
 **Receiving,** in the app delegate:
 
@@ -212,6 +217,11 @@ for (const KService::Ptr &app : apps) {
 ```
 
 KDE's database of desktop entries changes behind `KSycoca::databaseChanged`, the place to forget a kept list.
+
+**Found or not.** GIO and KDE leave out an entry whose `TryExec` is missing, but not one whose `Exec` program is gone
+(an app removed by hand, an AppImage deleted): check it too (`g_app_info_get_executable` with
+`g_find_program_in_path`, or `QStandardPaths::findExecutable`). An app the settings remember that fails either is
+**Not found**.
 
 **Receiving:** the link arrives as the `%u` argument. Check it, match the account, and only show the item.
 
