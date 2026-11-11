@@ -8,7 +8,8 @@ No link changes. **Show in:** two known ways, one menu item per participant (pre
 App…** where a menu cannot name apps, which sends straight to the one participant or lets the user choose among
 several; the guide shows both. A participant is named by its bundle's display name. **Settings:** the switch's link
 reads **Learn more…** (Learn More on GNOME and KDE); every participant has **Forget** beside its switch, not only
-one that is away; a description says what the switches and Forget do; one away is listed as **Not found**; with none
+one that is away; an optional, recommended description says what the switches and Forget do, and that turning an app off,
+not forgetting it, leaves it out; one away is listed as **Not found**; with none
 seen, the settings may link to the participants. No participant is set apart.
 
 # Draft 0.2, clarified (2026-11-10)

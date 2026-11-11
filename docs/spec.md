@@ -244,9 +244,11 @@ Every participant's settings show the protocol the same way, so a user meets one
   description with such a link (macOS), it ends the switch's description; elsewhere it stands beside the switch
   (**Learn More** on GNOME and KDE, as their buttons are written);
 - under it, the participants seen, each by its name and icon, with a **Forget** button and a switch, on by default;
-- under them, a description of what the switches and Forget do, such as: "Apps that take part are found by
-  themselves. Turn one off to leave it out of Show in. Forget clears what *this app* remembers of an app: one that
-  still takes part comes back, switched on."
+- under them, a description of what the switches and Forget do. It is OPTIONAL, but worth having: Forget brings back
+  a participant that still takes part, switched on, so a user who wants it gone should turn it off instead. For
+  example: "Apps that take part are found by themselves. Turn one off to leave it out of Show in. Forget clears what
+  *this app* remembers of an app: one that still takes part comes back, switched on, so turn it off instead to leave
+  it out."
 - with none seen, a sentence saying so, which MAY link to the [participants](participants.md).
 
 **Participants that come and go.** It works like pairing devices, except that pairing is automatic: an app that
