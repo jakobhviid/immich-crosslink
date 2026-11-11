@@ -44,6 +44,21 @@ func placePath(city: String?, country: String) -> String {
 `/search?query=%7B%22city%22%3A%22Aarhus%22%2C%22country%22%3A%22Denmark%22%7D`, byte for byte what Immich's web app
 writes for the same search. Receivers decode values whichever way they were encoded.
 
+# Two ways to offer Show in
+
+Two ways are known, and an app may use either, or its own, within [the rules for sending](spec.md#sending):
+
+1. **Show in *app*,** one menu item per participant that shows the item, by the name and icon the system gives it.
+   One click, and the user sees which apps take part before choosing. Immich Gallery's menus work this way, and
+   Immich Mount's in Files and Dolphin. Use it wherever the menu is built when it opens.
+2. **Show in Another App…,** one menu item for all of them, where the menu cannot name apps: its items are fixed when
+   the app is installed, or the app cannot list the others. With one participant it sends straight to it; with
+   several it asks which, by names and icons, with Cancel. Immich Mount uses it in Finder, whose File Provider actions
+   are fixed in the extension's Info.plist, so their names cannot be an app's found at run time; a Flatpak app uses
+   it through the OpenURI portal (below).
+
+The second exists for those limits. Where the first is possible, use the first.
+
 # macOS
 
 **Announcing and registering.** In the app's Info.plist, the announcement and the scheme that delivers links:
@@ -106,8 +121,8 @@ func send(_ link: URL, to app: URL) {
 }
 ```
 
-Offer **Show in *app*** only where `shows` holds the item's kind. The menu item's icon is
-`NSWorkspace.shared.icon(forFile: app.path)`. A sandboxed app may not see apps outside `/Applications`.
+Offer **Show in *app*** only where `shows` holds the item's kind. The menu item's name is the bundle's
+`CFBundleDisplayName` (its file name where it has none), and its icon `NSWorkspace.shared.icon(forFile: app.path)`. A sandboxed app may not see apps outside `/Applications`.
 
 **Receiving,** in the app delegate:
 
@@ -201,9 +216,9 @@ KDE's database of desktop entries changes behind `KSycoca::databaseChanged`, the
 **Receiving:** the link arrives as the `%u` argument. Check it, match the account, and only show the item.
 
 **Flatpak.** A Flatpak app's exported desktop entry carries its `MimeType` and its announcement, so it receives
-links. From inside the
-sandbox it cannot list the other apps; offer one **Show in Another App…** that opens the link through the OpenURI
-portal with `ask` set, so the user chooses.
+links. From inside the sandbox it cannot list the other apps; offer one **Show in Another App…**
+([the second way](#two-ways-to-offer-show-in)) that opens the link through the OpenURI portal with `ask` set, so the
+user chooses.
 
 # Testing
 

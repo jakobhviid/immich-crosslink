@@ -154,14 +154,25 @@ apps are restricted. Asking an app what it can do by sending it a link would sta
 
 # Sending
 
-A sender offers **Show in *app*** for each other participant that announces the item's kind.
+A sender SHOULD offer **Show in *app*** for each other participant that announces the item's kind: one menu item per
+app, by its name and icon. Where it cannot, because its menu's items are fixed when it is installed (Finder's File
+Provider actions) or because it cannot list the other apps (a Flatpak sandbox), it MAY offer one **Show in Another
+App…** instead:
+
+- offered only while at least one participant shows the item's kind;
+- with one, it sends to that app straight away;
+- with several, it lets the user choose among them, by their names and icons, and sends nothing if the user cancels.
+  It MAY leave the choosing to the system (the OpenURI portal with `ask`), which then decides how it looks.
+
+A participant MAY present Show in some other way, as long as it meets the rules below. Where it uses a menu item, the
+item reads **Show in *app*** or **Show in Another App…**, translated, so a user meets the same words in every app.
 
 - It MUST find participants through the operating system ([Finding participants](#finding-participants)), and MUST
   NOT list itself.
 - It MUST offer an app only for kinds its announcement lists, and only when its version is one the sender can send
   ([Versioning](#versioning)).
-- It MUST show each participant by the name and icon the operating system gives for it (its bundle or desktop entry),
-  never by anything in a link or in the announcement.
+- It MUST show each participant by the name and icon the operating system gives for it (its bundle's display name or
+  desktop entry), never by anything in a link or in the announcement.
 - It MUST send the link to that participant alone, never by opening the link with the scheme's default handler, which
   could be any participant.
 - It sends a link only when the user asks, one item at a time.
@@ -218,7 +229,7 @@ lists the apps registered for the scheme and keeps those with an announcement.
   nothing). Participants SHOULD be installed in `/Applications`.
 - **Flatpak.** A Flatpak app is a receiver like any other: its exported desktop entry carries the scheme and the
   announcement. From inside the sandbox it cannot list the other apps; it MAY offer one **Show in Another App…**
-  through the OpenURI portal, which lets the user choose.
+  ([Sending](#sending)) through the OpenURI portal, which lets the user choose.
 - **Other platforms** are not defined in draft 0.2. Proposals are welcome.
 - **Schemes that are not this one.** Participants MUST NOT register `immich`, the scheme of Immich's own mobile app,
   and MUST NOT use `app.immich`, Immich's sign-in redirect, for crosslinks. (Some desktop apps handle `app.immich` for
@@ -228,27 +239,37 @@ lists the apps registered for the scheme and keeps those with an announcement.
 
 Every participant's settings show the protocol the same way, so a user meets one name in every app:
 
-- a switch labelled **Immich Crosslink**, on by default, with a **Read more** link beside it to
-  <https://jakob.hviid.phd/immich-crosslink/>; the address itself is not shown;
-- under it, the participants seen, each with a switch, on by default.
+- a switch labelled **Immich Crosslink**, on by default, with a **Learn more…** link to
+  <https://jakob.hviid.phd/immich-crosslink/>, the address itself not shown. Where the platform's settings end a
+  description with such a link (macOS), it ends the switch's description; elsewhere it stands beside the switch
+  (**Learn More** on GNOME and KDE, as their buttons are written);
+- under it, the participants seen, each by its name and icon, with a **Forget** button and a switch, on by default;
+- under them, a description of what the switches and Forget do, such as: "Apps that take part are found by
+  themselves. Turn one off to leave it out of Show in. Forget clears what *this app* remembers of an app: one that
+  still takes part comes back, switched on."
+- with none seen, a sentence saying so, which MAY link to the [participants](participants.md).
 
-**Participants that come and go.** An app keeps the participants it has seen, so one that is away can still be
-switched off before it comes back:
+**Participants that come and go.** It works like pairing devices, except that pairing is automatic: an app that
+announces itself is found, the switch is the user's lasting choice, and Forget is a reset that is always safe.
 
-- A participant is *seen* whenever the app finds it installed ([Finding participants](#finding-participants)); the app
-  keeps, per bundle id or desktop entry id, its name and when it was last seen. Where it keeps them is the app's own
-  choice: they are the app's state, not a setting.
-- One that is not installed now is listed as **Not installed**, by its remembered name and a generic app icon, keeps
-  its switch, and has a **Forget** button.
+- A participant is *seen* whenever the app finds it ([Finding participants](#finding-participants)); the app keeps,
+  per bundle id or desktop entry id, its name and when it was last seen. Where it keeps them is the app's own choice:
+  they are the app's state, not a setting.
+- One that is not found now is listed as **Not found**, by its remembered name and a generic app icon, and keeps its
+  switch. Not found rather than not installed: an app may be installed and no longer announce itself, or be where the
+  sender cannot read it.
 - One not seen for 30 days is forgotten on its own.
-- Forgetting, by hand or after 30 days, also drops its switch, so a participant that comes back afterwards is new
-  again, and on.
-- Menus offer only participants installed now.
+- **Forget** is offered on every participant, found or not. Forgetting, by hand or after 30 days, drops what the app
+  remembers of it and its switch. A participant still found comes back at once, new and switched on; one not found
+  is gone. So whatever went wrong with an entry, Forget clears it, and a participant the user does not want is
+  switched off.
+- Menus offer only participants found now.
 
 Turning the main switch off stops the app from offering Show in *app* and from acting on received links. Turning one
-participant off removes it from the app's menus. "Immich Crosslink" is a name and stays in English; "Read more" and
-the words around them are translated. Messages about a link a participant received speak of "a link from another
-app", keeping the name for the protocol.
+participant off removes it from the app's menus. No participant is set apart: a sender lists, offers and names every
+participant the same way, whoever made it. "Immich Crosslink" is a name and stays in English; "Learn more…" and the
+words around them are translated. Messages about a link a participant received speak of "a link from another app",
+keeping the name for the protocol.
 
 # Copying links
 
