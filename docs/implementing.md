@@ -59,6 +59,14 @@ Two ways are known, and an app may use either, or its own, within [the rules for
 
 The second exists for those limits. Where the first is possible, use the first.
 
+**Asking which, with several.** Ask in the platform's own alert, with a button per participant (its icon and name)
+and Cancel: one click, as a menu would have been. On macOS, `NSAlert` stacks three or more buttons full width; make
+Return press the participant chosen last time, not whichever is first, and Escape cancel. Name the item in the
+alert's text, since it appears away from the window it was asked from. Past half a dozen participants, a list in the
+alert with Show and Cancel reads better than a wall of buttons. Not a menu popped up at the pointer: once the menu
+the action came from has closed, a second one opening from nothing has no pattern on any desktop, and it takes focus
+with no window to show for it (tried in Immich Mount's Finder action).
+
 # macOS
 
 **Announcing and registering.** In the app's Info.plist, the announcement and the scheme that delivers links:
