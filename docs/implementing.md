@@ -164,6 +164,13 @@ X-Immich-Crosslink-Shows=asset;album;person;place;page;
 Packages run `update-desktop-database` after installing, as they do for any MIME type. `gio mime
 x-scheme-handler/immich-crosslink` lists the apps that registered it.
 
+**An entry the app writes itself** ([Announcing](spec.md#announcing)) goes in `$XDG_DATA_HOME/applications`
+(`~/.local/share/applications` by default), with `NoDisplay=true` where it should stay out of the app grid and
+`TryExec` naming its program. Run `update-desktop-database` on that folder after adding or removing it: GIO lists the
+apps for a scheme from the folder's `mimeinfo.cache`. KDE notices the change by itself. Both list entries with
+`NoDisplay=true`. Quote `Exec`'s program only where its path needs it, as GIO's
+`g_app_info_get_executable` returns it with the quotes, and a check that the program exists then fails.
+
 **Finding the others and sending to one, with GIO** (C; the same calls exist in every GObject binding):
 
 ```c

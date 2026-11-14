@@ -2,6 +2,13 @@
 title: Changelog
 ---
 
+# Version 1.1 (2026-11-14)
+
+Additions, no link changes: an app may write its announcement itself, a desktop entry in the user's applications
+folder that it adds and removes as the user lets it take part; entries kept out of the app grid (`NoDisplay=true`) are
+found; one app may announce several participants, one per place it shows items in, which reach each other as any
+participants do. Every 1.0 participant keeps working as it is, and the announcement still reads `0.2`.
+
 # Version 1.0 (2026-11-14)
 
 Draft 0.2 becomes 1.0, with no change to links or rules. Immich Mount (2.33.0) and Immich Gallery (0.6.0) implement

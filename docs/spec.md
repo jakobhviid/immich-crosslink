@@ -1,9 +1,9 @@
 ---
 title: The Immich Crosslink protocol
-subtitle: Version 1.0
+subtitle: Version 1.1
 ---
 
-**Status:** version 1.0. Changes within version 1 only add (see [Versioning](#versioning)). Proposals are welcome as issues and pull requests on
+**Status:** version 1.1. Changes within version 1 only add (see [Versioning](#versioning)). Proposals are welcome as issues and pull requests on
 [GitHub](https://github.com/jakobhviid/immich-crosslink).
 
 The key words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY are to be read as described in
@@ -151,6 +151,22 @@ Apps do not announce themselves at run time (over D-Bus, notifications or socket
 happen to be running, race at login and go stale after a crash, and on the Mac a sandboxed app's messages to other
 apps are restricted. Asking an app what it can do by sending it a link would start every participant.
 
+**An announcement the app writes.** An app MAY install or remove an announcement itself, not only with its package: a
+desktop entry it writes in the user's applications folder (`$XDG_DATA_HOME/applications`) when a place it shows items
+in is switched on, or when the user lets it take part, and removes when that ends. It is an announcement like any
+other: on disk, found whether or not the app runs, and read only through the system's lists. On macOS a bundle
+announces only with its Info.plist, which is part of its signature; a Flatpak app, which cannot write there, announces
+only with the entries it exports.
+
+**One app, several participants.** An app that shows items in more than one place, such as a gallery and the library
+as a drive, MAY announce one participant per place, each its own desktop entry with its own id and name (for example
+"Verso Gallery" and "Verso Drive"), so the user chooses where an item shows. An entry that would show the app twice in
+the app grid is kept out of it (`NoDisplay=true`). Each is a participant of its own: it does not list itself, and
+lists the app's other participants as it lists any other, which is how the app's places reach each other. The app's
+Immich Crosslink switch covers all of them; its settings MAY give each of its own participants a switch that adds or
+removes its announcement. On macOS, where an announcement is a bundle's Info.plist, each participant is a bundle of
+its own; a Flatpak app exports one entry per participant, each named with its app id as the prefix.
+
 # Sending
 
 A sender SHOULD offer **Show in *app*** for each other participant that announces the item's kind: one menu item per
@@ -221,6 +237,7 @@ an app to look present when it is not, and those read as not found:
   `/Applications` (below), so a copy elsewhere cannot be read.
 - **Linux:** a desktop entry may outlive its program (an app installed by hand, an AppImage); its `TryExec`, or else
   the program of its `Exec`, must exist. An entry with `Hidden=true` is not there at all.
+  One with `NoDisplay=true`, kept out of the app grid, is found like any other.
 
 | Platform | Registering | Listing | Reading the announcement | Sending to one |
 |---|---|---|---|---|
@@ -310,6 +327,8 @@ crosslink is not recommended: pasted into a browser or a note, it opens with whi
 - **1.0** is draft 0.2, unchanged. Its announcement keeps the value `0.2`, as the released apps announce it: in
   version 1, `0.2` names the major version, and a sender sends to any app announcing it. A later major version
   announces its number (`2`).
+- **1.1** adds to version 1.0, with no link changes: an app may write its announcement itself, an entry kept out of
+  the app grid is found, and one app may announce several participants.
 - **Within version 1,** changes only add: new paths, kinds, parameters and platforms. A receiver from an earlier 1.x
   keeps working, because it ignores parameters and kinds it does not know and says it cannot show paths it does not
   know.
