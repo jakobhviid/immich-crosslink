@@ -2,6 +2,13 @@
 title: Changelog
 ---
 
+# Version 1.0 (2026-11-14)
+
+Draft 0.2 becomes 1.0, with no change to links or rules. Immich Mount (2.33.0) and Immich Gallery (0.6.0) implement
+it apart from each other, have both released it, and have been tested together, each sending to the other and back.
+The announcement keeps the value `0.2`, which in version 1 names the major version, so the released apps take part as
+they are. From now on, changes within version 1 only add.
+
 # Draft 0.2, settings and Show in (2026-11-11)
 
 No link changes. **Show in:** two known ways, one menu item per participant (preferred) or one **Show in Another

@@ -1,10 +1,9 @@
 ---
 title: The Immich Crosslink protocol
-subtitle: Draft 0.2
+subtitle: Version 1.0
 ---
 
-**Status:** draft 0.2, open for changes. Anything here may still change before 1.0 (see [Versioning](#versioning)).
-Proposals are welcome as issues and pull requests on
+**Status:** version 1.0. Changes within version 1 only add (see [Versioning](#versioning)). Proposals are welcome as issues and pull requests on
 [GitHub](https://github.com/jakobhviid/immich-crosslink).
 
 The key words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY are to be read as described in
@@ -37,7 +36,7 @@ which item, on which server.
 - **Server address:** the address the user signed in to, as an absolute URL without a trailing slash and without
   `/api`: `https://photos.example.com`.
 - **Crosslink:** a link with the scheme `immich-crosslink`, made of an Immich path and a server address.
-- **Announcement:** what an app installs with itself to take part: the draft it follows and the kinds it can show
+- **Announcement:** what an app installs with itself to take part: the version it follows and the kinds it can show
   ([Announcing](#announcing)).
 - **Participant:** an app that both announces itself and registers the scheme. An app that only registers the scheme
   is not a participant.
@@ -78,7 +77,7 @@ immich-crosslink:///search?query=%7B%22city%22%3A%22Aarhus%22%2C%22country%22%3A
 The paths are those of Immich's web app, defined in
 [`web/src/lib/route.ts`](https://github.com/immich-app/immich/blob/main/web/src/lib/route.ts) and
 [`web/src/routes/(user)/`](https://github.com/immich-app/immich/tree/main/web/src/routes/(user)), which Immich's mobile
-app also takes as deep links through `my.immich.app`. Draft 0.2 defines these:
+app also takes as deep links through `my.immich.app`. Version 1.0 defines these:
 
 | Item | Kind | Immich path |
 |---|---|---|
@@ -141,7 +140,7 @@ X-Immich-Crosslink-Version=0.2
 X-Immich-Crosslink-Shows=asset;album;person;
 ```
 
-- `Version` is the draft or major version the app follows ([Versioning](#versioning)).
+- `Version` is the version the app follows: `0.2` for version 1 ([Versioning](#versioning)).
 - `Shows` lists the kinds it can show. An app that shows assets MUST list `asset`, and MUST then take an asset's
   link with any context (showing the asset alone where it has no such view).
 - Readers MUST ignore kinds they do not know, and treat an announcement without a version they understand as absent.
@@ -188,8 +187,8 @@ A receiver shows what a link names.
   open a link with a registered scheme, so a link is always treated as coming from a stranger.
 - **Checking.** Before anything is fetched, the receiver checks the link and ends in one of three results, each
   listed for every [test link](test-links.md):
-  - *show:* a valid link with a path this draft defines, of a kind the receiver announced;
-  - *cannot show:* a valid link whose path this draft does not define (a search by anything but `city` and
+  - *show:* a valid link with a path this version defines, of a kind the receiver announced;
+  - *cannot show:* a valid link whose path this version does not define (a search by anything but `city` and
     `country` included), or of a kind the receiver did not announce: it tells the user so in a sentence;
   - *invalid:* anything else (another scheme, a host, a missing or empty `server`, a `server` that is not an
     absolute `http` or `https` URL with a host and without user information, query or fragment, a port that is not a
@@ -241,7 +240,7 @@ an app to look present when it is not, and those read as not found:
 - **Flatpak.** A Flatpak app is a receiver like any other: its exported desktop entry carries the scheme and the
   announcement. From inside the sandbox it cannot list the other apps; it MAY offer one **Show in Another App…**
   ([Sending](#sending)) through the OpenURI portal, which lets the user choose.
-- **Other platforms** are not defined in draft 0.2. Proposals are welcome.
+- **Other platforms** are not defined in version 1.0. Proposals are welcome.
 - **Schemes that are not this one.** Participants MUST NOT register `immich`, the scheme of Immich's own mobile app,
   and MUST NOT use `app.immich`, Immich's sign-in redirect, for crosslinks. (Some desktop apps handle `app.immich` for
   their own sign-in, as Immich's mobile app does; that is unrelated to this protocol.)
@@ -306,12 +305,14 @@ crosslink is not recommended: pasted into a browser or a note, it opens with whi
 
 # Versioning
 
-- **Drafts (0.x)** may change anything. An app announces the draft it follows, and a sender sends only to apps
+- **Drafts (0.1, 0.2)** could change anything. An app announced the draft it followed, and a sender sent only to apps
   announcing the same draft.
-- **From 1.0,** changes within a major version only add: new paths, kinds, parameters and platforms. An app
-  announces its major version (`1`), and a sender sends to any app announcing the same major. A receiver from an
-  earlier 1.x keeps working, because it ignores parameters and kinds it does not know and says it cannot show paths
-  it does not know.
+- **1.0** is draft 0.2, unchanged. Its announcement keeps the value `0.2`, as the released apps announce it: in
+  version 1, `0.2` names the major version, and a sender sends to any app announcing it. A later major version
+  announces its number (`2`).
+- **Within version 1,** changes only add: new paths, kinds, parameters and platforms. A receiver from an earlier 1.x
+  keeps working, because it ignores parameters and kinds it does not know and says it cannot show paths it does not
+  know.
 - Links carry no version: the announcement says what the receiver follows.
 - Changes are made as pull requests to the protocol's repository, and listed in the [changelog](changelog.md).
 
@@ -319,8 +320,8 @@ crosslink is not recommended: pasted into a browser or a note, it opens with whi
 
 - The [test links](test-links.md) (`tests/links.json` in the repository) give the result every receiver must reach
   for each link, and the links senders must make for each item. Implementations test against them.
-- Version 1.0 needs two independent implementations, one sending to the other and back, passing the test links
-  ([Roadmap](roadmap.md)).
+- Version 1.0 needed two independent implementations, one sending to the other and back, passing the test links.
+  Immich Mount and Immich Gallery met it ([Roadmap](roadmap.md)).
 
 # Relation to Immich
 

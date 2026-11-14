@@ -1,6 +1,6 @@
 ---
 title: Implementing Immich Crosslink
-subtitle: For draft 0.2
+subtitle: For version 1.0
 ---
 
 This page shows the platform parts: announcing the app, registering the scheme, finding the other participants and
@@ -111,13 +111,13 @@ struct Participant {
 
 /// The other apps that announce themselves and take crosslinks, by the system's name for them. Cheap enough to call
 /// each time a menu is built: macOS gives no signal when apps are installed or removed.
-func participants(draft: String = "0.2") -> [Participant] {
+func participants(version: String = "0.2") -> [Participant] {
     guard let probe = URL(string: "immich-crosslink:///photos") else { return [] }
     let ownID = Bundle.main.bundleIdentifier
     return NSWorkspace.shared.urlsForApplications(toOpen: probe).compactMap { url in
         guard let bundle = Bundle(url: url), bundle.bundleIdentifier != ownID,
               let announcement = bundle.infoDictionary?["ImmichCrosslink"] as? [String: Any],
-              announcement["Version"] as? String == draft,
+              announcement["Version"] as? String == version,
               let shows = announcement["Shows"] as? [String] else { return nil }  // no announcement: not a participant
         return Participant(name: FileManager.default.displayName(atPath: url.path), url: url, shows: Set(shows))
     }
@@ -181,7 +181,7 @@ for (GList *l = apps; l != NULL; l = l->next) {
     g_autofree char *version = g_desktop_app_info_get_string (entry, "X-Immich-Crosslink-Version");
     g_auto (GStrv) shows = g_desktop_app_info_get_string_list (entry, "X-Immich-Crosslink-Shows", NULL);
     if (g_strcmp0 (version, "0.2") != 0 || shows == NULL || !g_strv_contains ((const char * const *) shows, kind))
-        continue;  /* no announcement, another draft, or not this kind */
+        continue;  /* no announcement, another version, or not this kind */
     const char *name = g_app_info_get_display_name (app);
     GIcon *icon = g_app_info_get_icon (app);
     /* ... add a menu item; on activation: */
@@ -216,7 +216,7 @@ for (const KService::Ptr &app : apps) {
     const QStringList shows = app->property<QString>(QStringLiteral("X-Immich-Crosslink-Shows"))
                                   .split(QLatin1Char(';'), Qt::SkipEmptyParts);
     if (version != QLatin1String("0.2") || !shows.contains(kind))
-        continue;  // no announcement, another draft, or not this kind
+        continue;  // no announcement, another version, or not this kind
     // app->name(), app->icon() for the menu item; on activation:
     auto *job = new KIO::ApplicationLauncherJob(app);
     job->setUrls({QUrl(link)});

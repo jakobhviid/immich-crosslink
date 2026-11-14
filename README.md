@@ -13,7 +13,7 @@ immich-crosslink:///albums/<album>/photos/<asset>?server=https%3A%2F%2Fphotos.ex
 
 Read it at **<https://jakob.hviid.phd/immich-crosslink/>**:
 
-- [The protocol](docs/spec.md) (draft 0.2)
+- [The protocol](docs/spec.md) (version 1.0)
 - [Implementing it](docs/implementing.md) on macOS, GNOME and KDE, with code
 - [Test links](docs/test-links.md) ([`tests/links.json`](tests/links.json))
 - [Participants](docs/participants.md)
@@ -22,8 +22,8 @@ Read it at **<https://jakob.hviid.phd/immich-crosslink/>**:
 
 ## Status
 
-Draft 0.2, being designed. Anything may change before 1.0; from 1.0, changes within a major version only add. See
-[Versioning](docs/spec.md#versioning).
+Version 1.0, released in Immich Mount and Immich Gallery, which have been tested together. Changes within a major
+version only add. See [Versioning](docs/spec.md#versioning).
 
 ## Taking part
 

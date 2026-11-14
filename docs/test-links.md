@@ -1,11 +1,11 @@
 ---
 title: Test links
-subtitle: For draft 0.2
+subtitle: For version 1.0
 ---
 
 The test links are the protocol's examples with their answers, for implementations to test against. They live in
 [`tests/links.json`](https://github.com/jakobhviid/immich-crosslink/blob/main/tests/links.json), a file meant to be
-read by tests. Fetch it at the commit or tag of the draft you implement.
+read by tests. Fetch it at the commit or tag of the version you implement.
 
 # What the file holds
 
@@ -14,13 +14,13 @@ read by tests. Fetch it at the commit or tag of the draft you implement.
 - **`read`:** links, each with the result a receiver must reach:
   - `show`, with the `kind`, the Immich `path` (ids in lower case), the `server` address as it compares (host in
     lower case, no default port, no trailing slash) and the `user`, if any;
-  - `cannot-show`: a valid link this draft has no path for;
+  - `cannot-show`: a valid link this version has no path for;
   - `invalid`: not a valid link.
 
   The results assume a receiver that announces every kind. One that announces fewer reaches `cannot-show` for the
   others.
 
-Some `read` links carry parameters this draft does not define. A receiver MUST ignore them and still reach `show`:
+Some `read` links carry parameters this version does not define. A receiver MUST ignore them and still reach `show`:
 they are there so every implementation ignores unknown parameters from the start, rather than only in theory.
 
 # Using it

@@ -9,12 +9,13 @@ point to each other. Right-click a photo in one app, choose **Show in *another a
 photo, album, person or place. No app needs to know the others in advance: each announces itself when it is installed,
 and the operating system tells the others who is there.
 
-It is a draft (0.2), open for changes. Anyone may implement it, and proposals are welcome.
+It is at version 1.0, released in [Immich Mount and Immich Gallery](participants.md). Anyone may implement it, and
+proposals are welcome.
 
 # How it works
 
 1. Every participating app **announces** itself in the metadata it installs (its Info.plist on macOS, its desktop
-   entry on Linux): the draft it follows, and what it can show. It also registers the URL scheme `immich-crosslink`,
+   entry on Linux): the version it follows, and what it can show. It also registers the URL scheme `immich-crosslink`,
    which delivers links to it.
 2. An app asks the system which other apps registered the scheme, reads their announcements without starting them,
    and offers **Show in *app*** for each that shows the item, by the name and icon the system knows.
@@ -37,8 +38,8 @@ page, and a switch for each app found.
 - [Implementing it](implementing.md): announcing the app, registering the scheme, and finding the others on macOS,
   GNOME and KDE, with code.
 - [Test links](test-links.md): links with their expected results, for testing an implementation.
-- [Participants](participants.md): the apps that take part, and the draft each follows.
-- [Roadmap](roadmap.md): two implementations, then 1.0, then reference implementations in Rust and Swift.
+- [Participants](participants.md): the apps that take part, and the version each follows.
+- [Roadmap](roadmap.md): two implementations and 1.0, reached; next, reference implementations in Rust and Swift.
 - [Changelog](changelog.md).
 - [Contributing](https://github.com/jakobhviid/immich-crosslink/blob/main/CONTRIBUTING.md): how to propose a change
   or add your app.

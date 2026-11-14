@@ -4,22 +4,22 @@ title: Roadmap
 
 Where Immich Crosslink is going, in order. Each step is reached when it is met, not by a date.
 
-# Drafts
+# Drafts (done)
 
-The protocol is designed in drafts (0.x), which may change anything. Changes come from building it into real apps:
-what they need, and what turns out hard to implement or to read.
+The protocol was designed in drafts (0.1, 0.2), which could change anything. Changes came from building it into real
+apps: what they needed, and what turned out hard to implement or to read.
 
-# Two implementations
+# Two implementations (done)
 
 [Immich Mount](https://github.com/jakobhviid/immich-mount) (Linux and macOS) and
 [Immich Gallery](https://github.com/IGOLz/ImmichGallery) (macOS) implement the protocol, written apart from each
 other, and each sends to the other and back (see [Participants](participants.md)). Both pass the
-[test links](test-links.md). This is what 1.0 waits for: a protocol is only as clear as two implementations
-written from it agree.
+[test links](test-links.md). Both have released it and have been tested together. This was what 1.0 waited for: a
+protocol is only as clear as two implementations written from it agree.
 
-# Version 1.0
+# Version 1.0 (done, 14 November 2026)
 
-Once two implementations agree, the draft becomes 1.0. From then on, changes within a major version only add
+With two implementations agreeing, draft 0.2 became 1.0, unchanged. From now on, changes within a major version only add
 ([Versioning](spec.md#versioning)), and the protocol changes by pull request.
 
 # Reference implementations

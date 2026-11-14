@@ -6,7 +6,7 @@ Immich Crosslink grows by proposals from the apps that use it. Changes are made 
 
 Implement [the protocol](docs/spec.md), then open a pull request adding a row to
 [the participants](docs/participants.md): the app and a link to it, its platforms, what it sends and receives, the
-draft it follows, and its status (planned, or released in a version).
+version it follows, and its status (planned, or released in a version).
 
 ## Changing the protocol
 
@@ -20,9 +20,8 @@ What a change should keep:
 - **Links only show.** A receiver never changes, shares or deletes anything because of a link.
 - **Immich's own paths.** A new kind of item uses the path Immich's web app uses for it. Where Immich has none, say so
   in the issue.
-- **Additions, not changes.** From 1.0, a change within a major version only adds: a path, an optional parameter, a
-  platform. Until then, drafts may change anything, but a change that breaks existing links names the participants
-  it affects.
+- **Additions, not changes.** Since 1.0, a change within a major version only adds: a path, an optional parameter, a
+  platform.
 - **Every platform.** A rule that applies to one platform says how the others meet it, or why they cannot.
 
 ## Writing
